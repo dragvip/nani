@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			.center {
+				position: absolute;
+				left:0px;
+				right: 0px;
+				top:0px;
+				bottom: 0px;
+				margin: auto;
+			}
+			.box{
+				width: 980px;
+				height: 500px;
+				background-color: gray;
+			}
+			.box .item{
+				position: absolute;
+				background-image: url(img/20.jpg);
+				/*transition: transform 3s linear;*/
+			}
+		</style>
+		<script type="text/javascript" src="js/jquery-3.1.0.min.js" ></script>
+		<script type="text/javascript">
+		$(function(){
+			var X = 40; // 总列数
+			var Y = 30; // 总行数
+			
+			init();
+//			togather();
+//			setTimeout(togather, 0);
+			$("body").click(function(){
+				togather();
+			});
+			
+			function init(){
+				var box = $(".box");
+				
+				var w = 980/X; // 每个item的宽度
+				var h = 500/Y; // 每个item的高度
+
+				// 遍历每个item
+				for(var y=0; y < Y; y++){
+					for(var x = 0; x < X; x++){
+						// 产生一个随机的(rx,ry)坐标
+						var range = 3000;
+						var rx = Math.random()*range*2 - range; // [-3000, 3000)
+						var ry = Math.random()*range*2 - range; // [-3000, 3000)
+				
+						$("<div class='item'></div>")
+							.width(w)
+							.height(h)
+							.css({
+								"left": x*w,
+								"top": y*h,
+								"background-position": (-x*w)+"px "+ (-y*h)+"px", // 每个子项显示图片中的一部分
+								"opacity": "0", // 分散时子项是透明的
+								"transform": "translate("+rx+"px, "+ry+"px)" // 将每个子项放在一个随机的偏移位置
+							})
+							.appendTo(box);
+					}
+				}
+			}
+			
+			function togather(){
+				$(".box .item").css({"transform": "translate(0px, 0px)", "opacity": "1"}).each(function(){
+					var duration = Math.random()*3+2; //随机产生动画持续时间
+					$(this).css({"transition": "transform "+duration+"s linear, opacity "+duration+"s linear"});
+				});
+			}
+		})
+		</script>
+	</head>
+	<body>
+		<div class="box center"></div>
+	</body>
+</html>
